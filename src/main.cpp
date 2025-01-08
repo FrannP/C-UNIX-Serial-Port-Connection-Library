@@ -110,8 +110,9 @@ int main(){
     //reading
     //alloc memory for the buffer
     char readBuffer[256];
+    int One, Two;
     //read incoming bytes
-    int n = read(serial_port, &readBuffer, sizeof(readBuffer)); //n is number of read bytes
+    int n = read(serial_port, &readBuffer, sizeof(readBuffer) -1); //n is number of read bytes
 
     while (1) {
         memset(readBuffer, 0, sizeof(readBuffer));
@@ -119,6 +120,10 @@ int main(){
 
         if (bytesRead > 0) {
             printf("Recieved: %s ", readBuffer);
+            // Parse the read values into integers using sscanf
+            sscanf(readBuffer, "%d %d", &One, &Two);
+            printf("\r\n");
+            printf("Values: %d %d\n", One, Two);
         } else if (bytesRead < 0) {
             printf("Error %i from open: %s\n", errno, strerror(errno));
             break;
